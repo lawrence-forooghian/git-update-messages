@@ -1,0 +1,22 @@
+name: Test
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Check out repository"
+      uses: actions/checkout@v2
+    - name: "Get Ruby version from .ruby-version"
+      run: echo "::set-output name=RUBY_VERSION::$(cat .ruby-version)"
+      id: rbenv
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: "${{ steps.rbenv.outputs.RUBY_VERSION }}"
+    - name: Build and test with Rake
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+        bundle exec rake
