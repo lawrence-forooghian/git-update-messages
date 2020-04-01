@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+# e.g. TOOL_PATH=~/code/git-update-messages
+# TOOL_PATH=
+COMMAND_PATH="bin/hooks/post-rewrite"
+
+if [[ -z  "${TOOL_PATH}" ]]
+then
+    echo "TOOL_PATH not set." 2>&1
+    exit 1
+fi
+
+export RBENV_DIR="${TOOL_PATH}"
+BUNDLER_PATH=$(rbenv which bundle)
+
+export BUNDLE_GEMFILE="${TOOL_PATH}/Gemfile"
+${BUNDLER_PATH} exec "${TOOL_PATH}/${COMMAND_PATH}" "$@"

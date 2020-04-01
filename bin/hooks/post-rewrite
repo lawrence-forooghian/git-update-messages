@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+require "pathname"
+require "logger"
+
+%w[commit_message_updater command_line_logger].each do |file|
+  require Pathname.new(__FILE__).realpath + "../../../lib/#{file}"
+end
+
+logger = CommandLineLogger.create
+
+begin
+  if ARGV.empty?
+    logger.error("\e[31mExpected first argument to be name of post-rewrite operation.\e[0m")
+    exit 1
+  end
+
+  if ARGV != ["rebase"]
+    logger.debug("Operation is not a rebase. Will not update commit messages.")
+    exit 0
+  end
+
+  rewritten_commits = $stdin.read
+
+  mapped_shas = rewritten_commits.lines.map { |line|
+    line.chomp.split(" ")[0..1]
+  }
+  updater = CommitMessageUpdater.new(Dir.pwd, mapped_shas)
+
+  if updater.messages_need_updating?
+    updater.update
+    logger.info("\e[32mUpdated commit messages.\e[0m")
+  else
+    logger.debug("No messages need to be updated.")
+  end
+rescue => e
+  logger.fatal(e.message)
+  exit 1
+end
