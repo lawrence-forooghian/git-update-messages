@@ -25,7 +25,7 @@ RSpec.describe CommitMessage do
     end
 
     it "returns the original message when the message contains a 7-character suffix of the old SHA" do
-      original_message = message_referring_to(original_sha[-7..-1])
+      original_message = message_referring_to(original_sha[-7..])
 
       updated_message = CommitMessage.new(original_message).updated_message(original_sha, new_sha)
 

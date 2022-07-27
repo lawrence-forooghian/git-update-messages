@@ -34,7 +34,7 @@ RSpec.describe "Performing a rebase with the post-rewrite hook installed" do
           # of how to create a predictable environment
           "HOME" => "",
           "XDG_CONFIG_HOME" => "",
-          "GIT_CONFIG_NOSYSTEM" => "1",
+          "GIT_CONFIG_NOSYSTEM" => "1"
         }
 
         Dir.chdir(example_repo.repo_path) do

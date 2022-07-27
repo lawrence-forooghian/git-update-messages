@@ -1,7 +1,9 @@
+require "fileutils"
+
 class ExampleRepo
   attr_reader :repo, :new_shas, :rebased, :commit_count, :suffix_lengths
 
-  def initialize(rebased:, commit_count: 5, suffix_lengths:)
+  def initialize(rebased:, suffix_lengths:, commit_count: 5)
     @rebased = rebased
     @commit_count = commit_count
     @suffix_lengths = suffix_lengths
