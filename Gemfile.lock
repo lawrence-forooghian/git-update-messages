@@ -9,7 +9,8 @@ GEM
     rainbow (3.1.1)
     rake (13.0.1)
     regexp_parser (2.5.0)
-    rexml (3.2.5)
+    rexml (3.3.3)
+      strscan
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -42,6 +43,7 @@ GEM
     standard (1.9.1)
       rubocop (= 1.26.1)
       rubocop-performance (= 1.13.3)
+    strscan (3.1.0)
     unicode-display_width (2.2.0)
 
 PLATFORMS
