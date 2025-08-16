@@ -17,12 +17,21 @@ RSpec.describe "Performing a rebase with the post-rewrite hook installed" do
 
         env = {
           # The first command is for editing the rebase-todo, second is for editing the commit message
+          #
           # pick 9039de3 Commit 0
           # pick bc2f4df Commit 1, referring to parent 9039de3
           # pick b90969f Commit 2, referring to parent bc2f4df779d4d
           # pick ed1e3f9 Commit 3, referring to parent b90969fccc9ce80dfc412388549059
           # pick a284403 Commit 4, referring to parent ed1e3f9f6f3ea9a626aacba523c7a365a9dde2f2
-          "EDITOR" => 'sed -i -e \'s/\(pick\)\( [a-z0-9]\{1,\} Commit 0\)/reword\2/;s/^Commit 0$/Commit 0, reworded/\'',
+          #
+          # Or, in newer Git versions, which seem to add a hash before the commit message (can't find anything describing this, though, so maybe something weird started happening on my machine):
+          #
+          # pick 9039de3 # Commit 0
+          # pick bc2f4df # Commit 1, referring to parent 9039de3
+          # pick b90969f # Commit 2, referring to parent bc2f4df779d4d
+          # pick ed1e3f9 # Commit 3, referring to parent b90969fccc9ce80dfc412388549059
+          # pick a284403 # Commit 4, referring to parent ed1e3f9f6f3ea9a626aacba523c7a365a9dde2f2
+          "EDITOR" => 'sed -i -e \'s/\(pick\)\( [a-z0-9]\{1,\}\( #\)\{0,1\} Commit 0\)/reword\2/;s/^Commit 0$/Commit 0, reworded/\'',
 
           "GIT_COMMITTER_NAME" => "Test Rebaser",
           "GIT_COMMITTER_EMAIL" => "test-rebaser@example.com",
