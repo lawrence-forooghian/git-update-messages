@@ -8,6 +8,6 @@ gem "rugged", "~> 1.9.0"
 
 gem "rspec", "~> 3.9"
 
-gem "standard", "~> 1.9.0"
+gem "standard", "~> 1.31.0"
 
 gem "rake", "~> 13.0"
