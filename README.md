@@ -112,14 +112,28 @@ fbfe0ed Pass supplier-related strings to the MagicAuth gem
 
 ## Requirements
 
-- Ruby - the installation steps assume that you are using [rbenv](https://github.com/rbenv/rbenv) to manage your Ruby installation
+- Ruby - the installation steps assume that you are using [rbenv](https://github.com/rbenv/rbenv) or [asdf](https://github.com/asdf-vm/asdf) to manage your Ruby installation
 
 ## Steps
+
+### rbenv
 
 1. Clone the repository and `cd` into it.
 2. Run `rbenv install && bundle install`.
    - If you get an error when installing the Rugged gem, you may need to install `cmake` (`brew install cmake` on a Mac).
 3. Copy `bin/rbenv/hooks/post-rewrite` to your Git hooks path.
+   - This might be `.git/hooks` in a specific repository, or a path that you've
+     configured globally as `core.hooksPath`. It depends on how you like to use
+     Git.
+4. Edit the file that you just created, setting `TOOL_PATH` to the path of this
+   repository on your computer.
+
+### asdf
+
+1. Clone the repository and `cd` into it.
+2. Run `asdf install && bundle install`.
+   - If you get an error when installing the Rugged gem, you may need to install `cmake` (`brew install cmake` on a Mac).
+3. Copy `bin/asdf/hooks/post-rewrite` to your Git hooks path.
    - This might be `.git/hooks` in a specific repository, or a path that you've
      configured globally as `core.hooksPath`. It depends on how you like to use
      Git.
