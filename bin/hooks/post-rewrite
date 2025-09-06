@@ -2,6 +2,11 @@
 require "pathname"
 require "logger"
 
+# This script expects to receive the following arguments:
+#
+# 1. (Optional) full path to the repository — this means that the script does not need to be called from within the repository
+# 2. the subsequent arguments that Git passes to the post-rewrite hook (there should be one)
+
 %w[commit_message_updater command_line_logger].each do |file|
   require Pathname.new(__FILE__).realpath + "../../../lib/#{file}"
 end
@@ -9,12 +14,14 @@ end
 logger = CommandLineLogger.create
 
 begin
-  if ARGV.empty?
-    logger.error("\e[31mExpected first argument to be name of post-rewrite operation.\e[0m")
+  if ARGV.empty? || ARGV.length > 2
+    logger.error("\e[31mExpected optional first argument to be the full path of the repo, and second argument to be name of post-rewrite operation.\e[0m")
     exit 1
   end
 
-  if ARGV != ["rebase"]
+  repo_path = (ARGV.length == 2) ? ARGV.shift : Dir.pwd
+
+  if ARGV[0] != "rebase"
     logger.debug("Operation is not a rebase. Will not update commit messages.")
     exit 0
   end
@@ -24,7 +31,7 @@ begin
   mapped_shas = rewritten_commits.lines.map { |line|
     line.chomp.split(" ")[0..1]
   }
-  updater = CommitMessageUpdater.new(Dir.pwd, mapped_shas)
+  updater = CommitMessageUpdater.new(repo_path, mapped_shas)
 
   if updater.messages_need_updating?
     updater.update

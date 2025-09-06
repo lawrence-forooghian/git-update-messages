@@ -10,8 +10,9 @@ then
     exit 1
 fi
 
+REPO_PATH=$(pwd)
 export RBENV_DIR="${TOOL_PATH}"
 BUNDLER_PATH=$(rbenv which bundle)
 
 export BUNDLE_GEMFILE="${TOOL_PATH}/Gemfile"
-${BUNDLER_PATH} exec "${TOOL_PATH}/${COMMAND_PATH}" "$@"
+${BUNDLER_PATH} exec "$(pwd)" "${TOOL_PATH}/${COMMAND_PATH}" "$@"
